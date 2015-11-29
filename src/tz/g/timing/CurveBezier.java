@@ -1,4 +1,4 @@
-package tz.timing;
+package tz.g.timing;
 
 public class CurveBezier {
 	

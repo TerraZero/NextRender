@@ -1,4 +1,4 @@
-package tz.timing;
+package tz.g.timing;
 
 import tz.sys.reflect.annot.Program;
 import tz.sys.vui.VUI;

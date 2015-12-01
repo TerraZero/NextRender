@@ -1,4 +1,4 @@
-package tz.g.api;
+package tz.g.api.events;
 
 public interface GEvent {
 

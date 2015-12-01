@@ -1,10 +1,90 @@
-package tz.g.api;
+package tz.g.api.components;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
-public interface GComponent {
+import tz.g.api.GUtil;
+import tz.g.api.events.GEvent;
+import tz.g.api.events.GListener;
+import tz.g.api.functions.GComponentFunction;
+import tz.g.api.prop.GProp;
+import tz.g.api.prop.GPropInt;
+
+public interface GComponent {	
+	
+	// PROPS DECLARATION
+	
+	public String[] classes();
+	
+	public Map<String, GProp<?>> props();
+	
+	
+	
+	// PROPS DIMENSION
+	
+	public GPropInt x();
+	
+	public GPropInt y();
+	
+	public GPropInt width();
+	
+	public GPropInt height();
+	
+	
+	
+	// PROPS NODES
+	
+	public GComponent parent();
+	
+	public GComponent parent(GComponent parent);
+	
+	public List<GComponent> childrens();
+	
+
+	
+	// LISTENER
+	
+	public Map<String, List<GListener>> listener();
+	
+	public List<GListener> listener(String type);
+	
+	
+	
+	// CALL FUNCTIONS
+	
+	public void init();
+	
+	
+	
+	// DEFAULT PROPS
+
+	public default GProp<?> prop(String name) {
+		return this.props().get(name);
+	}
+	
+	public default GComponent addProp(GProp<?> prop) {
+		this.props().put(prop.name(), prop);
+		return this;
+	}
+	
+	public default GComponent removeProp(GProp<?> prop) {
+		this.props().remove(prop.name());
+		return this;
+	}
+	
+	public default String propString() {
+		String string = "";
+		for (GProp<?> prop : this.props().values()) {
+			string += prop + ", "; 
+		}
+		return string;
+	}
+	
+	
+	
+	// DEFAULT FUNCTIONS
 	
 	public default GComponent function(GComponentFunction gf) {
 		return this.functionComponent(gf).functionChildrens(gf);
@@ -24,16 +104,8 @@ public interface GComponent {
 	
 	
 	
-	public String[] classes();
+	// DEFAULT EVENTS
 	
-
-	
-	public Map<String, List<GListener>> listener();
-	
-	public default List<GListener> listener(String type) {
-		return this.listener().get(type);
-	}
-
 	public default GComponent bind(String type, GListener listener) {
 		this.listener(type).add(listener);
 		return this;
@@ -72,33 +144,23 @@ public interface GComponent {
 	
 	
 	
-	public int x();
-	
-	public int y();
-	
-	public int width();
-	
-	public int height();
-	
-	
-	
-	public GComponent parent();
-	
-	public GComponent setParent(GComponent parent);
-	
-	public List<GComponent> childrens();
+	// DEFAULT CHILDS
 	
 	public default GComponent add(GComponent child) {
-		child.setParent(this).childrens().add(child);
+		child.parent(this);
+		this.childrens().add(child);
 		return this;
 	}
 	
 	public default GComponent remove(GComponent child) {
-		child.setParent(null).childrens().remove(child);
+		child.parent(null);
+		this.childrens().remove(child);
 		return this;
 	}
 	
 	
+	
+	// DEFAULT INFO
 	
 	public default List<GComponent> componentsAt(int x, int y) {
 		return this.componentsAt(new ArrayList<GComponent>(), x, y);

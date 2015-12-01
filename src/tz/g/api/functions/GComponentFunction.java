@@ -1,4 +1,6 @@
-package tz.g.api;
+package tz.g.api.functions;
+
+import tz.g.api.components.GComponent;
 
 public interface GComponentFunction {
 	

@@ -34,18 +34,6 @@ public class GPropInt implements GProp<Integer> {
 			return this.target;
 		}
 	}
-	
-	public int get() {
-		return this.get(true);
-	}
-	
-	public int get(boolean current) {
-		if (current) {
-			return this.current;
-		} else {
-			return this.target;
-		}
-	}
 
 	@Override
 	public void host(GComponent host) {
@@ -71,8 +59,21 @@ public class GPropInt implements GProp<Integer> {
 		return "int";
 	}
 	
+	@Override
 	public String name() {
 		return this.name;
+	}
+	
+	public int get() {
+		return this.get(true);
+	}
+	
+	public int get(boolean current) {
+		if (current) {
+			return this.current;
+		} else {
+			return this.target;
+		}
 	}
 
 }

@@ -3,7 +3,6 @@ package tz.g.api.components;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import tz.g.api.GUtil;
 import tz.g.api.events.GEvent;

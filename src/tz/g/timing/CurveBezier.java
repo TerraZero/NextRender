@@ -114,7 +114,7 @@ public class CurveBezier {
 	    return this.calcBezier(this.getTForX(x), this.mY1, this.mY2);
 	}
 
-    // Newton raphson iteration
+	// Newton raphson iteration
 	public float getTForX(float x) {
 	    float aGuessT = x;
 	    for (int i = 0; i < 4; ++i) {

@@ -18,6 +18,7 @@ public class CurveBezier {
 	
 	// extra
 	public static final String EXTRA_EASE = "extra-ease";
+	public static final String EXTRA_IN_OUT = "extra-in-out";
 	
 	public static void main(String[] args) {
 		CurveBezier cb = new CurveBezier(CurveBezier.LINEAR);
@@ -41,6 +42,7 @@ public class CurveBezier {
 			CurveBezier.BOUNCE_OUT,
 			CurveBezier.BOUNCE_IN_OUT,
 			CurveBezier.EXTRA_EASE,
+			CurveBezier.EXTRA_IN_OUT,
 		};
 	}
 	
@@ -99,6 +101,11 @@ public class CurveBezier {
 			this.mY1 = 0.1f;
 			this.mX2 = 0f;
 			this.mY2 = 1f;
+		} else if (name.equals(CurveBezier.EXTRA_IN_OUT)) {
+			this.mX1 = 0.75f;
+			this.mY1 = 0.2f;
+			this.mX2 = 0.25f;
+			this.mY2 = 0.8f;
 		}
 	}
 

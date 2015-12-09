@@ -10,8 +10,10 @@ import tz.g.api.events.GListener;
 import tz.g.api.functions.GComponentFunction;
 import tz.g.api.prop.GProp;
 import tz.g.api.prop.GPropInt;
+import tz.g.api.render.GRender;
+import tz.g.ui.GGraphics;
 
-public interface GComponent {	
+public interface GComponent<component extends GComponent<component>> {	
 	
 	// PROPS DECLARATION
 	
@@ -35,11 +37,11 @@ public interface GComponent {
 	
 	// PROPS NODES
 	
-	public GComponent parent();
+	public GComponent<?> parent();
 	
-	public GComponent parent(GComponent parent);
+	public GComponent<component> parent(GComponent<?> parent);
 	
-	public List<GComponent> childrens();
+	public List<GComponent<?>> childrens();
 	
 
 	
@@ -48,6 +50,24 @@ public interface GComponent {
 	public Map<String, List<GListener>> listener();
 	
 	public List<GListener> listener(String type);
+	
+	
+	
+	// RENDER
+	
+	public GComponent<component> render(GRender<component> render);
+	
+	public GRender<component> render();
+	
+	public default GComponent<component> rendering(GGraphics g) {
+		this.render().render(this, g);
+		return this;
+	}
+	
+	public default GComponent<component> updating(float delta) {
+		this.render().update(this, delta);
+		return this;
+	}
 	
 	
 	
@@ -63,12 +83,12 @@ public interface GComponent {
 		return this.props().get(name);
 	}
 	
-	public default GComponent addProp(GProp<?> prop) {
+	public default GComponent<component> addProp(GProp<?> prop) {
 		this.props().put(prop.name(), prop);
 		return this;
 	}
 	
-	public default GComponent removeProp(GProp<?> prop) {
+	public default GComponent<component> removeProp(GProp<?> prop) {
 		this.props().remove(prop.name());
 		return this;
 	}
@@ -85,17 +105,17 @@ public interface GComponent {
 	
 	// DEFAULT FUNCTIONS
 	
-	public default GComponent function(GComponentFunction gf) {
+	public default GComponent<component> function(GComponentFunction gf) {
 		return this.functionComponent(gf).functionChildrens(gf);
 	}
 	
-	public default GComponent functionComponent(GComponentFunction gf) {
+	public default GComponent<component> functionComponent(GComponentFunction gf) {
 		gf.trigger(this);
 		return this;
 	}
 	
-	public default GComponent functionChildrens(GComponentFunction gf) {
-		for (GComponent child : this.childrens()) {
+	public default GComponent<component> functionChildrens(GComponentFunction gf) {
+		for (GComponent<?> child : this.childrens()) {
 			if (!gf.consumed()) child.function(gf);
 		}
 		return this;
@@ -105,16 +125,16 @@ public interface GComponent {
 	
 	// DEFAULT EVENTS
 	
-	public default GComponent bind(String type, GListener listener) {
+	public default GComponent<component> bind(String type, GListener listener) {
 		this.listener(type).add(listener);
 		return this;
 	}
 	
-	public default GComponent unbind(String type) {
+	public default GComponent<component> unbind(String type) {
 		return this.unbind(type, null);
 	}
 	
-	public default GComponent unbind(String type, GListener listener) {
+	public default GComponent<component> unbind(String type, GListener listener) {
 		if (listener == null) {
 			this.listener(type).clear();
 		} else {
@@ -123,18 +143,18 @@ public interface GComponent {
 		return this;
 	}
 	
-	public default GComponent fire(GEvent e) {
+	public default GComponent<component> fire(GEvent e) {
 		return this.fireComponent(e).fireParents(e);
 	}
 	
-	public default GComponent fireComponent(GEvent e) {
+	public default GComponent<component> fireComponent(GEvent e) {
 		for (GListener listener : this.listener(e.type())) {
 			listener.trigger(e);
 		}
 		return this;
 	}
 	
-	public default GComponent fireParents(GEvent e) {
+	public default GComponent<component> fireParents(GEvent e) {
 		if (e.propagation() && this.parent() != null) {
 			this.parent().fire(e);
 		}
@@ -145,13 +165,13 @@ public interface GComponent {
 	
 	// DEFAULT CHILDS
 	
-	public default GComponent add(GComponent child) {
+	public default GComponent<component> add(GComponent<?> child) {
 		child.parent(this);
 		this.childrens().add(child);
 		return this;
 	}
 	
-	public default GComponent remove(GComponent child) {
+	public default GComponent<component> remove(GComponent<?> child) {
 		child.parent(null);
 		this.childrens().remove(child);
 		return this;
@@ -161,24 +181,24 @@ public interface GComponent {
 	
 	// DEFAULT INFO
 	
-	public default List<GComponent> componentsAt(int x, int y) {
-		return this.componentsAt(new ArrayList<GComponent>(), x, y);
+	public default List<GComponent<?>> componentsAt(int x, int y) {
+		return this.componentsAt(new ArrayList<GComponent<?>>(), x, y);
 	}
 	
-	public default List<GComponent> componentsAt(List<GComponent> list, int x, int y) {
+	public default List<GComponent<?>> componentsAt(List<GComponent<?>> list, int x, int y) {
 		this.componentsAtComponent(list, x, y).componentsAtChildrens(list, x, y);
 		return list;
 	}
 	
-	public default GComponent componentsAtComponent(List<GComponent> list, int x, int y) {
+	public default GComponent<component> componentsAtComponent(List<GComponent<?>> list, int x, int y) {
 		if (GUtil.isPointInner(this, x, y)) {
 			list.add(this);
 		}
 		return this;
 	} 
 	
-	public default GComponent componentsAtChildrens(List<GComponent> list, int x, int y) {
-		for (GComponent c : this.childrens()) {
+	public default GComponent<component> componentsAtChildrens(List<GComponent<?>> list, int x, int y) {
+		for (GComponent<?> c : this.childrens()) {
 			c.componentsAt(list, x, y);
 		}
 		return this;

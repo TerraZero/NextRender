@@ -8,10 +8,10 @@ public interface GComponentFunction {
 	
 	public void consume();
 
-	public default void trigger(GComponent component) {
+	public default void trigger(GComponent<?> component) {
 		this.function(component);
 	}
 	
-	public void function(GComponent component);
+	public void function(GComponent<?> component);
 	
 }

@@ -8,15 +8,9 @@ import java.util.Map;
 import tz.g.api.events.GListener;
 import tz.g.api.prop.GProp;
 import tz.g.api.prop.GPropInt;
+import tz.g.api.render.GRender;
 
-public abstract class GComp implements GComponent {
-	
-	public static void main(String[] args) {
-		GComponent c = new GComp() {};
-		GComponent c2 = new GComp() {};
-		c.add(c2);
-		System.out.println(c);
-	}
+public abstract class GComp<component extends GComp<component>> implements GComponent<component> {
 	
 	protected Map<String, GProp<?>> props;
 	
@@ -25,10 +19,12 @@ public abstract class GComp implements GComponent {
 	protected GPropInt width;
 	protected GPropInt height;
 	
-	protected GComponent parent;
-	protected List<GComponent> childs;
+	protected GComponent<?> parent;
+	protected List<GComponent<?>> childs;
 	
 	protected Map<String, List<GListener>> listeners;
+	
+	protected GRender<component> render;
 
 	public GComp() {
 		this.init();
@@ -43,7 +39,7 @@ public abstract class GComp implements GComponent {
 		this.width = new GPropInt("w", this);
 		this.height = new GPropInt("h", this);
 			
-		this.childs = new ArrayList<GComponent>();
+		this.childs = new ArrayList<GComponent<?>>();
 		
 		this.listeners = new HashMap<String, List<GListener>>();
 	}
@@ -79,18 +75,18 @@ public abstract class GComp implements GComponent {
 	}
 
 	@Override
-	public GComponent parent() {
+	public GComponent<?> parent() {
 		return this.parent;
 	}
 
 	@Override
-	public GComponent parent(GComponent parent) {
+	public GComponent<component> parent(GComponent<?> parent) {
 		this.parent = parent;
 		return this;
 	}
 
 	@Override
-	public List<GComponent> childrens() {
+	public List<GComponent<?>> childrens() {
 		return this.childs;
 	}
 
@@ -108,6 +104,17 @@ public abstract class GComp implements GComponent {
 			this.listeners.put(type, listeners);
 			return listeners;
 		}
+	}
+	
+	@Override
+	public GComponent<component> render(GRender<component> render) {
+		this.render = render;
+		return this;
+	}
+
+	@Override
+	public GRender<component> render() {
+		return this.render;
 	}
 	
 	@Override

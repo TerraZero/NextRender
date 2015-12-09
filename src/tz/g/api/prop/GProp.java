@@ -14,9 +14,9 @@ public interface GProp<type> {
 	
 	public type getter(boolean current);
 	
-	public void host(GComponent host);
+	public void host(GComponent<?> host);
 	
-	public GComponent host();
+	public GComponent<?> host();
 	
 	
 	

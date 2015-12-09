@@ -20,17 +20,6 @@ public class CurveBezier {
 	public static final String EXTRA_EASE = "extra-ease";
 	public static final String EXTRA_IN_OUT = "extra-in-out";
 	
-	public static void main(String[] args) {
-		CurveBezier cb = new CurveBezier(CurveBezier.LINEAR);
-		float last = 0f;
-		float next = 0f;
-		for (int i = 0; i < 11; i++) {
-			next = cb.get(i / 10f);
-			System.out.println(next - last);
-			last = next;
-		}
-	}
-	
 	public static String[] defineds() {
 		return new String[] {
 			CurveBezier.EASE,

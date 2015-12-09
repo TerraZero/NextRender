@@ -4,12 +4,12 @@ import tz.g.api.components.GComponent;
 
 public class GPropInt implements GProp<Integer> {
 	
-	private GComponent host;
+	private GComponent<?> host;
 	private Integer current;
 	private Integer target;
 	private String name;
 	
-	public GPropInt(String name, GComponent host) {
+	public GPropInt(String name, GComponent<?> host) {
 		this.name = name;
 		this.host(host);
 		this.current = 0;
@@ -36,7 +36,7 @@ public class GPropInt implements GProp<Integer> {
 	}
 
 	@Override
-	public void host(GComponent host) {
+	public void host(GComponent<?> host) {
 		if (this.host != null) {
 			this.host.removeProp(this);
 		}
@@ -45,7 +45,7 @@ public class GPropInt implements GProp<Integer> {
 	}
 
 	@Override
-	public GComponent host() {
+	public GComponent<?> host() {
 		return this.host;
 	}
 	

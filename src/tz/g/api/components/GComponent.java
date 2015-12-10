@@ -9,7 +9,7 @@ import tz.g.api.events.GEvent;
 import tz.g.api.events.GListener;
 import tz.g.api.functions.GComponentFunction;
 import tz.g.api.prop.GProp;
-import tz.g.api.prop.GPropInt;
+import tz.g.api.prop.GPropFloat;
 import tz.g.api.render.GRender;
 import tz.g.ui.GGraphics;
 
@@ -25,13 +25,13 @@ public interface GComponent<component extends GComponent<component>> {
 	
 	// PROPS DIMENSION
 	
-	public GPropInt x();
+	public GPropFloat x();
 	
-	public GPropInt y();
+	public GPropFloat y();
 	
-	public GPropInt width();
+	public GPropFloat width();
 	
-	public GPropInt height();
+	public GPropFloat height();
 	
 	
 	

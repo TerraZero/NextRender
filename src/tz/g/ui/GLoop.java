@@ -5,6 +5,7 @@ import java.awt.event.ComponentEvent;
 
 import tz.g.G;
 import tz.g.api.components.GComponent;
+import tz.sys.Sys;
 
 public class GLoop {
 
@@ -48,7 +49,7 @@ public class GLoop {
 
 	public void loop() {
 		long nextTime = 0;
-		long frameTime = 0;
+		float frameTime = 0;
 		long current = System.currentTimeMillis();
 		float delta = 0;
 		
@@ -58,7 +59,7 @@ public class GLoop {
 					try {
 						this.sync.wait();
 					} catch (InterruptedException e) {
-						System.out.println(e);
+						Sys.exception(e);
 					}
 				}
 			}

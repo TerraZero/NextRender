@@ -33,10 +33,10 @@ public class G {
 		G.frame.add(G.canvas);
 		G.state = new GState("main");
 		TestComp c = new TestComp();
-		c.x().setter(10, false);
-		c.y().setter(10, false);
-		c.width().setter(500, false);
-		c.height().setter(200, false);
+		c.x().setter(10f);
+		c.y().setter(10f, false);
+		c.width().setter(500f, false);
+		c.height().setter(200f, false);
 		G.state.add(c);
 	}
 	

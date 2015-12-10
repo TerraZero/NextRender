@@ -7,17 +7,17 @@ import java.util.Map;
 
 import tz.g.api.events.GListener;
 import tz.g.api.prop.GProp;
-import tz.g.api.prop.GPropInt;
+import tz.g.api.prop.GPropFloat;
 import tz.g.api.render.GRender;
 
 public abstract class GComp<component extends GComp<component>> implements GComponent<component> {
 	
 	protected Map<String, GProp<?>> props;
 	
-	protected GPropInt x;
-	protected GPropInt y;
-	protected GPropInt width;
-	protected GPropInt height;
+	protected GPropFloat x;
+	protected GPropFloat y;
+	protected GPropFloat width;
+	protected GPropFloat height;
 	
 	protected GComponent<?> parent;
 	protected List<GComponent<?>> childs;
@@ -34,10 +34,10 @@ public abstract class GComp<component extends GComp<component>> implements GComp
 	public void init() {
 		this.props = new HashMap<String, GProp<?>>();
 		
-		this.x = new GPropInt("x", this);
-		this.y = new GPropInt("y", this);
-		this.width = new GPropInt("w", this);
-		this.height = new GPropInt("h", this);
+		this.x = new GPropFloat("x", this);
+		this.y = new GPropFloat("y", this);
+		this.width = new GPropFloat("w", this);
+		this.height = new GPropFloat("h", this);
 			
 		this.childs = new ArrayList<GComponent<?>>();
 		
@@ -55,22 +55,22 @@ public abstract class GComp<component extends GComp<component>> implements GComp
 	}
 
 	@Override
-	public GPropInt x() {
+	public GPropFloat x() {
 		return this.x;
 	}
 
 	@Override
-	public GPropInt y() {
+	public GPropFloat y() {
 		return this.y;
 	}
 
 	@Override
-	public GPropInt width() {
+	public GPropFloat width() {
 		return this.width;
 	}
 
 	@Override
-	public GPropInt height() {
+	public GPropFloat height() {
 		return this.height;
 	}
 

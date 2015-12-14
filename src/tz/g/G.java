@@ -3,6 +3,7 @@ package tz.g;
 import java.util.List;
 
 import tz.g.api.components.TestComp;
+import tz.g.timing.CurveBezier;
 import tz.g.ui.GCanvas;
 import tz.g.ui.GFrame;
 import tz.g.ui.GLoop;
@@ -33,10 +34,13 @@ public class G {
 		G.frame.add(G.canvas);
 		G.state = new GState("main");
 		TestComp c = new TestComp();
-		c.x().setter(10f);
+		String s = CurveBezier.EXTRA_IN_OUT;
+		c.width().timing(s);
+		c.height().timing(s);
+		c.x().setter(10f, false);
 		c.y().setter(10f, false);
-		c.width().setter(500f, false);
-		c.height().setter(200f, false);
+		c.width().setter(500f);
+		c.height().setter(200f);
 		G.state.add(c);
 	}
 	

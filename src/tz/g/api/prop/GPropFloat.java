@@ -6,9 +6,12 @@ import tz.g.timing.CurveBezier;
 public class GPropFloat implements GProp<Float> {
 	
 	private GComponent<?> host;
+	
 	private float current;
-	private float target;
+	private float x;
+	private float diff;
 	private float start;
+	
 	private String name;
 	private CurveBezier timing;
 	
@@ -16,8 +19,9 @@ public class GPropFloat implements GProp<Float> {
 		this.name = name;
 		this.host(host);
 		this.current = 0f;
-		this.target = 0f;
+		this.x = 0f;
 		this.start = 0f;
+		this.diff = 0f;
 		this.timing = new CurveBezier(CurveBezier.LINEAR);
 	}
 
@@ -63,12 +67,14 @@ public class GPropFloat implements GProp<Float> {
 	public void set(float set, boolean ani) {
 		if (ani) {
 			this.start = this.current();
-			this.current = 0;
-			this.target = set;
+			this.current = 0f;
+			this.x = 0f;
+			this.diff = set - this.start;
 		} else {
-			this.target = set;
-			this.current = 1f;
+			this.x = 1f;
 			this.start = set;
+			this.current = 1f;
+			this.diff = 0f;
 		}
 	}
 	
@@ -84,7 +90,7 @@ public class GPropFloat implements GProp<Float> {
 		if (current) {
 			return this.current();
 		} else {
-			return this.target;
+			return this.start + this.diff;
 		}
 	}
 	
@@ -93,7 +99,7 @@ public class GPropFloat implements GProp<Float> {
 	}
 	
 	public float current() {
-		return this.start * this.current;
+		return this.start + this.diff * this.current;
 	}
 
 	@Override
@@ -108,11 +114,10 @@ public class GPropFloat implements GProp<Float> {
 
 	@Override
 	public void update(float delta) {
-		if (this.current() != this.target) {
-			float calc = this.current + delta / 100;
-			float next = this.timing.get(this.current + delta / 100);
-			this.current += next;
-			System.out.println(next);
+		if (this.x != 1f) {
+			this.x += delta / 1000;
+			if (this.x > 1f) this.x = 1f;
+			this.current = this.timing.get(this.x);
 		}
 	}
 

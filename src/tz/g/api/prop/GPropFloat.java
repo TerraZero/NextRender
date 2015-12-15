@@ -121,4 +121,9 @@ public class GPropFloat implements GProp<Float> {
 		}
 	}
 
+	@Override
+	public void style(String style) {
+		
+	}
+
 }

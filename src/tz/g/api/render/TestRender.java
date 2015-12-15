@@ -22,7 +22,7 @@ public class TestRender implements GRender<TestComp> {
 	@Override
 	public void render(GComponent<TestComp> c, GGraphics g) {
 		Graphics2D g2 = g.g2d();
-		g2.setColor(Color.BLUE);
+		g2.setColor((Color)c.prop("color").getter());
 		g2.fillRect(c.x().i(), c.y().i(), c.width().i(), c.height().i());
 		g2.setColor(Color.BLACK);
 	}

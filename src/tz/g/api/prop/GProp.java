@@ -17,6 +17,8 @@ public interface GProp<type> {
 		this.timing(new CurveBezier(timing));
 	}
 	
+	public void style(String style);
+	
 	
 	
 	public void setter(type set, boolean ani);

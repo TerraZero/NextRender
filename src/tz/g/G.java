@@ -1,8 +1,10 @@
 package tz.g;
 
+import java.awt.Color;
 import java.util.List;
 
 import tz.g.api.components.TestComp;
+import tz.g.api.prop.GPropColor;
 import tz.g.timing.CurveBezier;
 import tz.g.ui.GCanvas;
 import tz.g.ui.GFrame;
@@ -39,8 +41,12 @@ public class G {
 		c.height().timing(s);
 		c.x().setter(10f, false);
 		c.y().setter(10f, false);
-		c.width().setter(500f);
-		c.height().setter(200f);
+		c.width().setter(820f);
+		c.height().setter(420f);
+		GPropColor color = (GPropColor)c.prop("color");
+		color.timing(CurveBezier.EASE);
+		color.setter(Color.BLUE, false);
+		color.setter(Color.GREEN);
 		G.state.add(c);
 	}
 	
